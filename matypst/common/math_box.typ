@@ -15,26 +15,47 @@
   )
 }
 
-#let math_box(color, title, contents) = {
+#let color_box_with_content_block(color, title, contents) = {
   set align(center)
   color_box(color, title, block(fill: white, inset: 8pt, radius: 4pt, width: 100%, contents))
 }
 
-#let axiom(contents, title: none) = {
-  math_box(kMathColors.red, [#strong_and_emph("Axiom") (#title)], contents)
+#let box_inner_heading_state_name(title) = {
+  title + "/heading_state"
 }
 
-#let theorem_counter = counter("theoerm")
+#let make_box(color, box_type) = {
+  let inner_heading_state = state(box_inner_heading_state_name(box_type), 0)
+  let box_counter = counter(box_type)
+  let box_fn(contents, title: none) = {
+    locate(
+      loc => {
+        let cur_heading = counter(heading).at(loc).at(0)
+        if inner_heading_state.at(loc) != cur_heading {
+          box_counter.update(0)
+          inner_heading_state.update(cur_heading)
+        }
 
-#let theorem(contents, title: none) = {
-  locate(
-    loc => {
-      theorem_counter.step()
-      let heading_cnt = ""
-      if counter(heading).at(loc).at(0) != 0 {
-        heading_cnt += counter(heading).display() + "."
+        box_counter.step()
+        let heading_display = ""
+        if cur_heading != 0 {
+          heading_display += str(cur_heading) + "."
+        }
+        color_box_with_content_block(
+          color,
+          [#strong_and_emph(box_type + " " + heading_display + box_counter.display()) (#title)],
+          contents
+        )
       }
-      math_box(kMathColors.blue, [#strong_and_emph("Theorem " + heading_cnt + theorem_counter.display()) (#title)], contents)
-    }
-  )
+    )
+  }
+  box_fn
 }
+
+#let axiom = make_box(kMathColors.red, "Axiom")
+#let theorem = make_box(kMathColors.blue, "Theorem")
+#let definition = make_box(kMathColors.orange, "Definition")
+#let lemma = make_box(kMathColors.teal, "Lemma")
+#let example = make_box(kMathColors.gray, "Example")
+#let proposition = make_box(kMathColors.yellow, "Proposition")
+#let remark = make_box(kMathColors.pink, "Remark")

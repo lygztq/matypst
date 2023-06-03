@@ -30,5 +30,5 @@
   yellow: rgb("#F9E79F"),
   orange: rgb("#F8C471"),
   gray: rgb("#E5E7E9"),
-  red: rgb("#E74C3C"),
+  red: rgb("#E74C3C").lighten(50%),
 )
