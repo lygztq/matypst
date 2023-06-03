@@ -1,6 +1,6 @@
 #import "color.typ": kMathColors
 
-#let important_rect = rect.with(inset: 8pt, radius: 4pt, stroke: 1pt, width: 90%)
+#let important_rect = rect.with(inset: 0.75em, radius: 0.5em, stroke: 0.1em, width: 90%)
 
 #let strong_and_emph(contents) = strong(emph(contents))
 
@@ -17,7 +17,7 @@
 
 #let color_box_with_content_block(color, title, contents) = {
   set align(center)
-  color_box(color, title, block(fill: white, inset: 8pt, radius: 4pt, width: 100%, contents))
+  color_box(color, title, block(fill: white, inset: 0.75em, radius: 0.5em, width: 100%, contents))
 }
 
 #let box_inner_heading_state_name(title) = {
@@ -43,7 +43,7 @@
         }
         color_box_with_content_block(
           color,
-          [#strong_and_emph(box_type + " " + heading_display + box_counter.display()) (#title)],
+          [#strong_and_emph(box_type + " " + heading_display + box_counter.display()) #title],
           contents
         )
       }
