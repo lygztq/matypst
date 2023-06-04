@@ -6,7 +6,9 @@
     numbering: "1",
   )
 
-  align(center)[#text(17pt, title)]
-  set text(font: "Inria Serif")
+  align(center)[#text(24pt, weight: "bold", title)]
+  set text(14pt)
+  set par(justify: true)
+  set heading(numbering: "1.")
   [#doc]
 }
